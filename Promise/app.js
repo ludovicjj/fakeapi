@@ -21,6 +21,7 @@ let getPost = function() {
         'https://my-json-server.typicode.com/ludovicjj/fakeapi/posts',
         function(response) {
             let posts = JSON.parse(response);
+            console.log(posts);
         },
         function(error) {
             console.log(error);
