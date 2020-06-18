@@ -20,16 +20,23 @@ let get = function(url) {
 };
 
 
+let addComment = function (comments) {
+    let comment = comments[0];
+    let ul = document.querySelector('#comment-body');
+    let li = document.createElement('li');
+    li.innerHTML = comment.body;
+    ul.appendChild(li);
+};
+
 let getComment = async function() {
     var response = await get('https://my-json-server.typicode.com/ludovicjj/fakeapi/posts');
     let posts = JSON.parse(response);
     response = await get('https://my-json-server.typicode.com/ludovicjj/fakeapi/comments?postId=' + posts[0].id);
-    let comments = JSON.parse(response);
-    return comments;
+    return JSON.parse(response);
 };
 
 getComment().then(comments => {
-    console.log(comments[0]);
+    addComment(comments);
 }).catch(error => {
     console.log(error)
 });
