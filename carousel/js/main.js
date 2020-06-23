@@ -9,21 +9,34 @@ class Carousel {
     constructor(element, options = {}) {
         this.element = element;
         this.options = Object.assign({}, {slideToScroll: 1, slideVisible:1}, options);
+        this.container = this.createDivWithClass('carousel__container');
 
-        this.children = [].slice.call(element.children);
+        // Get children HTML Element from this.element
+        let children = [].slice.call(element.children);
 
-        let ratio = this.children.length / this.options.slideVisible;
+        // Update DOM, this.element > root > container
         let root = this.createDivWithClass('carousel');
-        let container = this.createDivWithClass('carousel__container');
-        container.style.width = (ratio * 100) + '%';
-        root.appendChild(container);
+        root.appendChild(this.container);
         this.element.appendChild(root);
 
-        this.children.forEach((child) => {
+        // Update DOM, container > carousel__item > children. Return carousel__item[]
+        this.items = children.map((child) => {
             let item = this.createDivWithClass('carousel__item');
-            item.style.width = (100 / this.children.length) + "%";
             item.appendChild(child);
-            container.appendChild(item);
+            this.container.appendChild(item);
+            return item;
+        });
+        // Update style width (container & carousel__items)
+        this.setStyle();
+    }
+
+    setStyle() {
+        let ratio = this.items.length / this.options.slideVisible;
+        // container width
+        this.container.style.width = (ratio * 100) + '%';
+        // carousel__items width
+        this.items.forEach((item) => {
+            item.style.width = (100 / this.items.length) + '%';
         });
     }
 
