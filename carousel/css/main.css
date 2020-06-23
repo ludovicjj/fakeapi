@@ -24,6 +24,11 @@ body {
     margin:10px;
     background-color:#fff;
     box-shadow:0 15px 35px #3232321a,0 5px 15px #0000001a;
+    transition: transform 0.3s;
+}
+
+.item:hover{
+    transform:translate3d(0,-10px,0)
 }
 
 .item img{
@@ -54,10 +59,42 @@ body {
 .carousel__item {
     float: left;
 }
+
+.carousel__container {
+    transition: transform 0.3s;
+    transform: translate3d(0,0,0);
+}
 .carousel__container::after {
     content: "";
     clear: both;
     display: table;
+}
+
+/* Navigation */
+.carousel__next, .carousel__prev {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    margin-top: -20px;
+    box-shadow:0 15px 35px #3232321a,0 5px 15px #0000001a;
+    transition: transform 0.3s;
+}
+.carousel__next:hover, .carousel__prev:hover {
+    transform: scale(1.2);
+}
+
+.carousel__next {
+    background: white url("../img/right.svg") center center no-repeat;
+    background-size: 20px 20px;
+    right: -20px;
+}
+.carousel__prev {
+    background: white url("../img/left.svg") center center no-repeat;
+    background-size: 20px 20px;
+    left: -20px;
 }
 
 
