@@ -79,7 +79,7 @@ class Carousel {
                prev.classList.remove('carousel__prev--hidden');
            }
 
-           if(this.items[this.currentItem + this.options.slideVisible] === undefined) {
+           if(this.items[this.currentItem + this.slideVisible] === undefined) {
                next.classList.add('carousel__next--hidden');
            } else {
                next.classList.remove('carousel__next--hidden');
@@ -95,11 +95,11 @@ class Carousel {
     }
 
     next() {
-        this.goToItem(this.currentItem + this.options.slideToScroll);
+        this.goToItem(this.currentItem + this.slideToScroll);
     }
 
     prev() {
-        this.goToItem(this.currentItem - this.options.slideToScroll);
+        this.goToItem(this.currentItem - this.slideToScroll);
     }
 
     /**
@@ -137,14 +137,14 @@ class Carousel {
     /**
      * @returns {number}
      */
-    get SlideToScroll() {
+    get slideToScroll() {
         return this.isMobile ? 1 : this.options.slideToScroll;
     }
 
     /**
      * @returns {number}
      */
-    get SlideVisible() {
+    get slideVisible() {
         return this.isMobile ? 1 : this.options.slideVisible;
     }
 }
