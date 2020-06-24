@@ -80,7 +80,7 @@ body {
     top: 50%;
     margin-top: -20px;
     box-shadow:0 15px 35px #3232321a,0 5px 15px #0000001a;
-    transition: transform 0.3s;
+    transition: transform 0.3s, opacity 0.3s;
 }
 .carousel__next:hover, .carousel__prev:hover {
     transform: scale(1.2);
@@ -96,14 +96,6 @@ body {
     background-size: 20px 20px;
     left: -20px;
 }
-
-
-/*
-HELP
- */
-.carousel__container{
-    border: 2px black solid;
-}
-.carousel__item {
-
+.carousel__prev--hidden, .carousel__next--hidden {
+    opacity: 0;
 }
