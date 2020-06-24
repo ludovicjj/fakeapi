@@ -52,12 +52,12 @@ class Carousel {
      * Applique les dimension aux elements
      */
     setStyle() {
-        let ratio = this.items.length / this.options.slideVisible;
+        let ratio = this.items.length / this.slideVisible;
         // container width
         this.container.style.width = (ratio * 100) + '%';
         // carousel__items width
         this.items.forEach((item) => {
-            item.style.width = (100 / this.items.length) + '%';
+            item.style.width = ((100 / this.slideVisible) / ratio) + '%';
         });
     }
 
@@ -108,10 +108,10 @@ class Carousel {
      */
     goToItem(index) {
         if (index < 0) {
-            index = this.items.length - this.options.slideVisible;
+            index = this.items.length - this.slideVisible;
         } else if (
             index >= this.items.length ||
-            (this.items[this.currentItem + this.options.slideVisible] === undefined && index > this.currentItem)
+            (this.items[this.currentItem + this.slideVisible] === undefined && index > this.currentItem)
         ) {
             index = 0;
         }
