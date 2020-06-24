@@ -24,6 +24,7 @@ class Carousel {
         this.container = this.createDivWithClass('carousel__container');
         this.currentItem = 0;
         this.scrollCallbacks = [];
+        this.isMobile = false;
         // Get children HTML Element from this.element
         let children = [].slice.call(element.children);
 
@@ -131,6 +132,20 @@ class Carousel {
         let div = document.createElement('div');
         div.setAttribute('class', className);
         return div
+    }
+
+    /**
+     * @returns {number}
+     */
+    getSlideToScroll() {
+        return this.isMobile ? 1 : this.options.slideToScroll;
+    }
+
+    /**
+     * @returns {number}
+     */
+    getSlideVisible() {
+        return this.isMobile ? 1 : this.options.slideVisible;
     }
 }
 
