@@ -137,14 +137,14 @@ class Carousel {
     /**
      * @returns {number}
      */
-    getSlideToScroll() {
+    get SlideToScroll() {
         return this.isMobile ? 1 : this.options.slideToScroll;
     }
 
     /**
      * @returns {number}
      */
-    getSlideVisible() {
+    get SlideVisible() {
         return this.isMobile ? 1 : this.options.slideVisible;
     }
 }
