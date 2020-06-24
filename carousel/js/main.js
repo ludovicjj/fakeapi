@@ -120,7 +120,6 @@ class Carousel {
 
         // Update currentItem
         this.currentItem = index;
-        console.log(this.currentItem)
     }
 
 
