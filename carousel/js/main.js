@@ -108,14 +108,19 @@ class Carousel {
     goToItem(index) {
         if (index < 0) {
             index = this.items.length - this.options.slideVisible;
-        } else if (index >= this.items.length || this.items[this.currentItem + this.options.slideVisible] === undefined) {
+        } else if (
+            index >= this.items.length ||
+            (this.items[this.currentItem + this.options.slideVisible] === undefined && index > this.currentItem)
+        ) {
             index = 0;
         }
         let translateX = (-100 / this.items.length) * index;
         this.container.style.transform = 'translate3d(' + translateX + '%, 0, 0)';
+        this.scrollCallbacks.forEach(callback => callback(index));
+
         // Update currentItem
         this.currentItem = index;
-        this.scrollCallbacks.forEach(callback => callback(index));
+        console.log(this.currentItem)
     }
 
 
