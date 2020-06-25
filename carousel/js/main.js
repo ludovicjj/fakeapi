@@ -14,7 +14,9 @@ class Carousel {
      * @param {boolean} [options.loop=false] Enable loop scroll
      */
     constructor(element, options = {}) {
+        // properties
         this.element = element;
+        let children = [].slice.call(element.children);
         this.options = Object.assign({},
             {
                 slideToScroll: 1,
@@ -25,30 +27,34 @@ class Carousel {
         this.currentItem = 0;
         this.scrollCallbacks = [];
         this.isMobile = false;
-        // Get children HTML Element from this.element
-        let children = [].slice.call(element.children);
 
-        // Update DOM, this.element > root > container
+        // Update DOM
         this.root = this.createDivWithClass('carousel');
         this.root.appendChild(this.container);
         this.element.appendChild(this.root);
-
-        // Update DOM, container > carousel__item > children. Return carousel__item[]
+        this.root.setAttribute('tabindex', '0');
         this.items = children.map((child) => {
             let item = this.createDivWithClass('carousel__item');
             item.appendChild(child);
             this.container.appendChild(item);
             return item;
         });
-        // Update style width (container & carousel__items)
         this.setStyle();
-        // Update DOM with navigation ELEMENT
         this.setNavigation();
-        // Disable prev button on load page
+
+        // Event
         this.scrollCallbacks.forEach(cb => cb(0));
-        // Event resize
         this.onResize();
         window.addEventListener('resize', this.onResize.bind(this));
+        this.root.addEventListener('keyup', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'Right') {
+                this.next();
+            }
+
+            if (e.key === 'ArrowLeft' || e.key === 'Left') {
+                this.prev();
+            }
+        });
     }
 
     /**
@@ -122,12 +128,20 @@ class Carousel {
      */
     goToItem(index) {
         if (index < 0) {
-            index = this.items.length - this.slideVisible;
+            if (this.options.loop) {
+                index = this.items.length - this.slideVisible;
+            } else {
+                return;
+            }
         } else if (
             index >= this.items.length ||
             (this.items[this.currentItem + this.slideVisible] === undefined && index > this.currentItem)
         ) {
-            index = 0;
+            if (this.options.loop) {
+                index = 0;
+            } else {
+                return;
+            }
         }
 
         let translateX = (-100 / this.items.length) * index;
