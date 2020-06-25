@@ -24,7 +24,7 @@ class Carousel {
         this.container = this.createDivWithClass('carousel__container');
         this.currentItem = 0;
         this.scrollCallbacks = [];
-        this.isMobile = false;
+        this.isMobile = true;
         // Get children HTML Element from this.element
         let children = [].slice.call(element.children);
 
@@ -73,13 +73,15 @@ class Carousel {
             return;
         }
         this.onScroll(index => {
+            // previous
            if (index === 0) {
                prev.classList.add('carousel__prev--hidden');
            } else {
                prev.classList.remove('carousel__prev--hidden');
            }
 
-           if(this.items[this.currentItem + this.slideVisible] === undefined) {
+           // next
+           if (this.items[this.currentItem + this.slideVisible] === undefined) {
                next.classList.add('carousel__next--hidden');
            } else {
                next.classList.remove('carousel__next--hidden');
@@ -115,12 +117,15 @@ class Carousel {
         ) {
             index = 0;
         }
+
         let translateX = (-100 / this.items.length) * index;
         this.container.style.transform = 'translate3d(' + translateX + '%, 0, 0)';
-        this.scrollCallbacks.forEach(callback => callback(index));
 
         // Update currentItem
         this.currentItem = index;
+
+        // onScroll(index)
+        this.scrollCallbacks.forEach(callback => callback(index));
     }
 
 
@@ -153,12 +158,12 @@ class Carousel {
 document.addEventListener('DOMContentLoaded', function () {
     new Carousel(document.querySelector('#carousel1'), {
         slideToScroll: 1,
-        slideVisible: 3,
+        slideVisible: 3
     });
 
     new Carousel(document.querySelector('#carousel2'), {
         slideToScroll: 1,
-        slideVisible: 3,
+        slideVisible: 1,
         loop: true
     });
 });

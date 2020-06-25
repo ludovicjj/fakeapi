@@ -98,4 +98,5 @@ body {
 }
 .carousel__prev--hidden, .carousel__next--hidden {
     opacity: 0;
+    cursor: auto;
 }
