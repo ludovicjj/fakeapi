@@ -24,7 +24,7 @@ class Carousel {
         this.container = this.createDivWithClass('carousel__container');
         this.currentItem = 0;
         this.scrollCallbacks = [];
-        this.isMobile = true;
+        this.isMobile = false;
         // Get children HTML Element from this.element
         let children = [].slice.call(element.children);
 
@@ -44,8 +44,11 @@ class Carousel {
         this.setStyle();
         // Update DOM with navigation ELEMENT
         this.setNavigation();
-
+        // Disable prev button on load page
         this.scrollCallbacks.forEach(cb => cb(0));
+        // Event resize
+        this.onResize();
+        window.addEventListener('resize', this.onResize.bind(this));
     }
 
     /**
@@ -94,6 +97,15 @@ class Carousel {
      */
     onScroll(cb) {
         this.scrollCallbacks.push(cb);
+    }
+
+    onResize() {
+        let mobile = window.innerWidth < 800;
+        if (mobile !== this.isMobile) {
+            this.isMobile = mobile;
+            this.setStyle();
+            this.scrollCallbacks.forEach(cb => cb(this.currentItem));
+        }
     }
 
     next() {
