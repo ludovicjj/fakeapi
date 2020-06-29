@@ -55,7 +55,6 @@ body {
 */
 .carousel {
     position: relative;
-    padding-bottom: 25px;
 }
 .carousel__item {
     float: left;
@@ -64,6 +63,7 @@ body {
 .carousel__container {
     transition: transform 0.3s;
     transform: translate3d(0,0,0);
+    padding-bottom: 25px;
 }
 .carousel__container::after {
     content: "";
@@ -123,4 +123,51 @@ body {
 }
 .carousel__pagination__button--active, .carousel__pagination__button:hover {
     transform: scale(1.4);
+}
+
+
+
+
+/*test */
+.test{
+    text-align: center;
+    margin: 50px 0 0 0;
+    padding-bottom: 50px;
+    position: relative;
+}
+.t-container {
+    height: 50px;
+    width: 50px;
+    background-color: white;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 4px;
+    text-align: center;
+    line-height: 50px;
+    transition: transform 0.3s;
+}
+.t-container.active {
+    transform: scale(1.1);
+}
+
+.t-pagination {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    transition: transform 0.3s;
+}
+
+.t-pagination-item {
+    width: 10px;
+    height: 10px;
+    background-color: white;
+    margin: 0 4px;
+    border-radius: 50%;
+    display:inline-block;
+    transition: transform 0.3s;
+}
+
+.t-pagination-item:hover {
+    transform: scale(1.3);
 }

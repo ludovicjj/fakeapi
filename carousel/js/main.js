@@ -114,12 +114,16 @@ class Carousel {
         let pagination = this.createDivWithClass('carousel__pagination');
         let buttons = [];
         this.root.appendChild(pagination);
-        for (let i = 0; i < this.items.length; i = i + this.options.slideToScroll) {
+        let limit = this.items.length - this.options.slideVisible + 1;
+        for (let i = 0; i < limit; i = i + this.options.slideToScroll) {
             let button = this.createDivWithClass('carousel__pagination__button');
             button.addEventListener('click', () => {this.goToItem(i)});
             pagination.appendChild(button);
             buttons.push(button);
         }
+        this.onScroll(index => {
+
+        })
     }
 
     /**
@@ -207,7 +211,8 @@ class Carousel {
 let onReady = function () {
     new Carousel(document.querySelector('#carousel1'), {
         slideToScroll: 1,
-        slideVisible: 3
+        slideVisible: 3,
+        pagination: true
     });
 
     new Carousel(document.querySelector('#carousel2'), {
