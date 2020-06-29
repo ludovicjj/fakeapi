@@ -12,6 +12,7 @@ class Carousel {
      * @param {number} [options.slideToScroll=1] Nombre d'element à faire défiler
      * @param {number} [options.slideVisible=1] Nombre d'element visible
      * @param {boolean} [options.loop=false] Enable loop scroll
+     * @param {boolean} [options.pagination=false]
      */
     constructor(element, options = {}) {
         // properties
@@ -21,7 +22,8 @@ class Carousel {
             {
                 slideToScroll: 1,
                 slideVisible:1,
-                loop: false
+                loop: false,
+                pagination: false
             }, options);
         this.container = this.createDivWithClass('carousel__container');
         this.currentItem = 0;
@@ -41,6 +43,9 @@ class Carousel {
         });
         this.setStyle();
         this.setNavigation();
+        if (this.options.pagination) {
+            this.createPagination();
+        }
 
         // Event
         this.scrollCallbacks.forEach(cb => cb(0));
@@ -67,9 +72,13 @@ class Carousel {
         // carousel__items width
         this.items.forEach((item) => {
             item.style.width = ((100 / this.slideVisible) / ratio) + '%';
+            //item.style.width = (100 / this.items.length) + '%';
         });
     }
 
+    /**
+     * Create navigation arrow
+     */
     setNavigation() {
         let next = this.createDivWithClass('carousel__next');
         let prev = this.createDivWithClass('carousel__prev');
@@ -96,6 +105,21 @@ class Carousel {
                next.classList.remove('carousel__next--hidden');
            }
         });
+    }
+
+    /**
+     * Create pagination
+     */
+    createPagination() {
+        let pagination = this.createDivWithClass('carousel__pagination');
+        let buttons = [];
+        this.root.appendChild(pagination);
+        for (let i = 0; i < this.items.length; i = i + this.options.slideToScroll) {
+            let button = this.createDivWithClass('carousel__pagination__button');
+            button.addEventListener('click', () => {this.goToItem(i)});
+            pagination.appendChild(button);
+            buttons.push(button);
+        }
     }
 
     /**
@@ -180,8 +204,7 @@ class Carousel {
     }
 }
 
-
-document.addEventListener('DOMContentLoaded', function () {
+let onReady = function () {
     new Carousel(document.querySelector('#carousel1'), {
         slideToScroll: 1,
         slideVisible: 3
@@ -190,6 +213,11 @@ document.addEventListener('DOMContentLoaded', function () {
     new Carousel(document.querySelector('#carousel2'), {
         slideToScroll: 1,
         slideVisible: 1,
-        loop: true
+        loop: true,
+        pagination: true
     });
-});
+};
+if (document.readyState !== 'loading') {
+    onReady();
+}
+document.addEventListener('DOMContentLoaded', onReady);

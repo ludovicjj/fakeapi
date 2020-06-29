@@ -13,11 +13,11 @@ body {
 }
 
 .title{
-    margin-top:50px;
+    margin-top:30px;
+    margin-bottom:25px;
     font-size:25px;
     color:#fff;
     font-weight:700;
-    margin-bottom:25px
 }
 
 .item{
@@ -55,6 +55,7 @@ body {
 */
 .carousel {
     position: relative;
+    padding-bottom: 25px;
 }
 .carousel__item {
     float: left;
@@ -99,4 +100,27 @@ body {
 .carousel__prev--hidden, .carousel__next--hidden {
     opacity: 0;
     cursor: auto;
+}
+
+/* Pagination */
+.carousel__pagination {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+.carousel__pagination__button {
+    background-color: white;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow:0 2px 3px #3232321a;
+    margin: 0 3px;
+    transition: transform 0.3s;
+    cursor: pointer;
+}
+.carousel__pagination__button--active, .carousel__pagination__button:hover {
+    transform: scale(1.4);
 }
