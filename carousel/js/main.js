@@ -1,16 +1,29 @@
 class Carousel {
+
+    /**
+     * This callback is displayed as a global member.
+     * @callback moveCallback
+     * @param {number} slide
+     */
+
     /**
      * @param {HTMLElement} element
-     * @param {Object} options
-     * @param {number} options.slideToScroll
-     * @param {number} options.slideVisible
+     * @param {Object}      options
+     * @param {number}      [options.slideToScroll=1]
+     * @param {number}      [options.slideVisible=1]
+     * @param {boolean}     [options.loop=false]
      */
     constructor(element, options) {
         // properties
         this.element = element;
-        this.options = Object.assign({}, {slideToScroll: 1, slideVisible: 1}, options);
+        this.options = Object.assign(
+            {},
+            {slideToScroll: 1, slideVisible: 1, loop: false},
+            options,
+        );
         let children = [].slice.call(element.children);
         this.currentSlide = 0;
+        this.moveCallbacks = [];
 
         // DOM
         this.root = this.createDivWithClass('carousel');
@@ -27,7 +40,8 @@ class Carousel {
 
         // Method
         this.setStyle();
-        this.createNavigation()
+        this.createNavigation();
+        this.moveCallbacks.forEach(cb => cb(0));
     }
 
     /**
@@ -46,6 +60,23 @@ class Carousel {
         this.root.appendChild(prevButton);
         nextButton.addEventListener('click', this.next.bind(this));
         prevButton.addEventListener('click', this.prev.bind(this));
+
+        if (this.options.loop === true) {
+            return;
+        }
+        this.onMove(slide => {
+            if (slide === 0) {
+                prevButton.classList.add('carousel__prev--hidden');
+            } else {
+                prevButton.classList.remove('carousel__prev--hidden');
+            }
+
+            if (this.hasItem()) {
+                nextButton.classList.add('carousel__next--hidden');
+            } else {
+                nextButton.classList.remove('carousel__next--hidden');
+            }
+        })
     }
 
     next() {
@@ -60,9 +91,44 @@ class Carousel {
      * @param {number} slide
      */
     goToSlide(slide) {
+        if (slide < 0) {
+            slide = this.items.length - this.options.slideVisible;
+        } else if (
+            slide >= this.items.length || this.isOverLimit(slide)
+        ) {
+            slide = 0;
+        }
         let translateX = slide * (-100 / this.items.length);
         this.container.style.transform = 'translate3d(' + translateX + '%, 0, 0)';
         this.currentSlide = slide;
+
+        this.moveCallbacks.forEach(cb => cb(slide));
+    }
+
+    /**
+     * confirm carousel is over the limit
+     * @param {number} slide
+     * @returns {boolean}
+     */
+    isOverLimit(slide) {
+        let index = this.currentSlide + this.options.slideVisible;
+        return this.items[index] === undefined && slide > this.items.length - this.options.slideVisible;
+    }
+
+    /**
+     * confirm item exist by index
+     * @returns {boolean}
+     */
+    hasItem() {
+        return this.items[this.currentSlide + this.options.slideVisible] === undefined;
+    }
+
+    /**
+     *
+     * @param {moveCallback} cb
+     */
+    onMove(cb) {
+        this.moveCallbacks.push(cb)
     }
 
     /**
@@ -83,8 +149,9 @@ let onReady = function () {
     });
 
     new Carousel(document.querySelector('#carousel2'), {
-        slideToScroll: 1,
-        slideVisible: 1
+        slideToScroll: 2,
+        slideVisible: 2,
+        loop: true
     });
 };
 

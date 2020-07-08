@@ -80,7 +80,7 @@ body {
     right: -20px;
     cursor: pointer;
     box-shadow:0 15px 35px #3232321a,0 5px 15px #0000001a;
-    transition: transform 0.3s
+    transition: transform 0.3s, opacity 0.3s;
 }
 .carousel__prev:hover, .carousel__next:hover {
     transform: scale(1.3);
@@ -90,4 +90,8 @@ body {
     background-size: 20px 20px;
     left: -20px;
     right: auto;
+}
+.carousel__prev--hidden, .carousel__next--hidden {
+    opacity: 0;
+    cursor: auto;
 }
