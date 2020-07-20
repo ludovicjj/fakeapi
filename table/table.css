@@ -1,0 +1,89 @@
+body {
+    font-family: sans-serif;
+    display: flex;
+}
+.container {
+    width: 80%;
+    margin: auto;
+}
+/* ACTOR */
+.actor_container {
+}
+.actor_container--child {
+    display: flex;
+}
+.actor_container--child>div {
+    width: 50%;
+    border-bottom: 1px black solid;
+    padding: 15px 0;
+    text-align: left;
+    font-size: 0.9em;
+    color: #929292;
+}
+.actor_container--child div:last-child {
+    font-weight: bold;
+    color: black;
+}
+.action-js {
+    position: relative;
+    z-index: 5;
+    margin-top: -1px;
+    box-sizing: border-box;
+    width: 100%;
+    text-align: center;
+    padding: 15px 0;
+    cursor: pointer;
+    box-shadow:0 2px 10px #3232321a;
+}
+
+.sub_container {
+    position: relative;
+    z-index: 4;
+    overflow: hidden;
+    height: 0;
+    transition:height 1s;
+}
+
+/* ------------------ TEST ------------------- */
+
+.test_container {
+    box-sizing: border-box;
+    margin-top: 50px;
+    display: block;
+    opacity: 1;
+    width: 100%;
+    height: 141px;
+    border: 3px royalblue solid;
+    overflow: hidden;
+    transition:height 1s;
+    /* <-- "transitionEnd" should fire after this */
+}
+.test_container.test-on {
+    height: 0;
+}
+
+/* CHILD */
+.container_child {
+    display: flex;
+}
+.container_child>div {
+    width: 50%;
+    border-bottom: 1px red solid;
+    padding: 15px 0;
+    text-align: left;
+    font-size: 0.9em;
+    color: #929292;
+}
+.container_child div:last-child{
+    font-weight: bold;
+    color: black;
+}
+/* ACTION */
+.action {
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px #bababa solid;
+    text-align: center;
+    padding: 15px 0;
+    cursor: pointer;
+}
