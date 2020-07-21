@@ -12,13 +12,15 @@ class Carousel {
      * @param {number}      [options.slideToScroll=1]
      * @param {number}      [options.slideVisible=1]
      * @param {boolean}     [options.loop=false]
+     * @param {boolean}     [options.pagination=false]
+     * @param {boolean}     [options.navigation=true]
      */
     constructor(element, options) {
         // properties
         this.element = element;
         this.options = Object.assign(
             {},
-            {slideToScroll: 1, slideVisible: 1, loop: false},
+            {slideToScroll: 1, slideVisible: 1, loop: false, pagination: false, navigation: true},
             options,
         );
         let children = [].slice.call(element.children);
@@ -39,7 +41,12 @@ class Carousel {
             return item;
         });
         this.setStyle();
-        this.createNavigation();
+        if (this.options.navigation) {
+            this.createNavigation();
+        }
+        if (this.options.pagination) {
+            this.createPagination();
+        }
 
         // Event
         this.moveCallbacks.forEach(cb => cb(0));
@@ -52,7 +59,7 @@ class Carousel {
             if (e.key === 'ArrowLeft' || e.key === 'Left') {
                 this.prev();
             }
-        })
+        });
     }
 
     /**
@@ -90,6 +97,25 @@ class Carousel {
         })
     }
 
+    createPagination() {
+        let pagination = this.createDivWithClass('carousel__pagination');
+        let buttons = [];
+        this.root.appendChild(pagination);
+        for (let i = 0; i < this.items.length; i = i + this.options.slideToScroll) {
+            let button = this.createDivWithClass('carousel__pagination__button');
+            button.addEventListener('click', () => this.goToSlide(i));
+            pagination.appendChild(button);
+            buttons.push(button);
+        }
+        this.onMove(index => {
+            let activeButton = buttons[Math.floor(index / this.options.slideToScroll)];
+            if (activeButton) {
+                buttons.forEach(button => button.classList.remove('carousel__pagination__button--active'));
+                activeButton.classList.add('carousel__pagination__button--active');
+            }
+        })
+    }
+
     next() {
         this.goToSlide(this.currentSlide + this.slideToScroll);
     }
@@ -121,7 +147,6 @@ class Carousel {
         let translateX = slide * (-100 / this.items.length);
         this.container.style.transform = 'translate3d(' + translateX + '%, 0, 0)';
         this.currentSlide = slide;
-
         this.moveCallbacks.forEach(cb => cb(slide));
     }
 
@@ -180,13 +205,15 @@ let onReady = function () {
     new Carousel(document.querySelector('#carousel1'), {
         slideToScroll: 3,
         slideVisible: 3,
-        loop: true
+        loop: true,
+        pagination: true
     });
 
     new Carousel(document.querySelector('#carousel2'), {
         slideToScroll: 2,
         slideVisible: 2,
-        loop: false
+        loop: false,
+        pagination: true
     });
 
     new Carousel(document.querySelector('#carousel3'), {
