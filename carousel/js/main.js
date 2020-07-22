@@ -12,6 +12,7 @@ class Carousel {
      * @param {number}      [options.slideToScroll=1]
      * @param {number}      [options.slideVisible=1]
      * @param {boolean}     [options.loop=false]
+     * @param {boolean}     [options.infinite=false]
      * @param {boolean}     [options.pagination=false]
      * @param {boolean}     [options.navigation=true]
      */
@@ -20,7 +21,14 @@ class Carousel {
         this.element = element;
         this.options = Object.assign(
             {},
-            {slideToScroll: 1, slideVisible: 1, loop: false, pagination: false, navigation: true},
+            {
+                slideToScroll: 1,
+                slideVisible: 1,
+                loop: false,
+                pagination: false,
+                navigation: true,
+                infinite: false
+            },
             options,
         );
         let children = [].slice.call(element.children);
@@ -37,9 +45,23 @@ class Carousel {
         this.items = children.map(child => {
             let item = this.createDivWithClass('carousel__item');
             item.appendChild(child);
-            this.container.appendChild(item);
+            /*this.container.appendChild(item);*/
             return item;
         });
+
+        // Infinite
+        if (this.options.infinite) {
+            this.offset = this.options.slideVisible * 2 - 1;
+            this.items = [
+                ...this.items.slice(this.items.length - this.offset).map(item => item.cloneNode(true)),
+                ...this.items,
+                ...this.items.slice(0, this.offset).map(item => item.cloneNode(true)),
+            ];
+            this.goToSlide(this.offset, false);
+        }
+
+        this.items.forEach(item => this.container.appendChild(item));
+
         this.setStyle();
         if (this.options.navigation) {
             this.createNavigation();
@@ -49,7 +71,7 @@ class Carousel {
         }
 
         // Event
-        this.moveCallbacks.forEach(cb => cb(0));
+        this.moveCallbacks.forEach(cb => cb(this.currentSlide));
         this.onWindowResize(); // display mobile design on page loading
         window.addEventListener('resize', this.onWindowResize.bind(this));
         this.root.addEventListener('keyup', (e) => {
@@ -60,6 +82,9 @@ class Carousel {
                 this.prev();
             }
         });
+        if (this.options.infinite) {
+            this.container.addEventListener('transitionend', this.resetInfinite.bind(this));
+        }
     }
 
     /**
@@ -125,9 +150,11 @@ class Carousel {
     }
 
     /**
-     * @param {number} slide
+     * @param {number}      slide
+     * @param {boolean}     [animation=true]
      */
-    goToSlide(slide) {
+    goToSlide(slide, animation = true) {
+        console.log(slide);
         if (slide < 0) {
             if (this.options.loop) {
                 slide = this.items.length - this.slideVisible;
@@ -144,10 +171,35 @@ class Carousel {
                 return;
             }
         }
+
         let translateX = slide * (-100 / this.items.length);
+        if (animation === false) {
+            this.container.style.transition = 'none';
+        }
+
         this.container.style.transform = 'translate3d(' + translateX + '%, 0, 0)';
+        this.container.offsetHeight; // force repaint
+        if (animation === false) {
+            this.container.style.transition = '';
+        }
         this.currentSlide = slide;
         this.moveCallbacks.forEach(cb => cb(slide));
+    }
+
+    /**
+     * Deplace le container pour donner l'impression d'un slide infini
+     */
+    resetInfinite() {
+        if (this.currentSlide <= this.options.slideToScroll) {
+            /**
+             * 1 2 3 4 5
+             *
+             * 3 4 5 | *[1 2] 3 4 5 | 1 2 3
+             *  <-
+             *  3 4 5 | 1 2 3 4 [5 | 1] 2 3
+             */
+            this.goToSlide(this.currentSlide + this.items.length - 2 * this.offset, false);
+        }
     }
 
 
@@ -203,8 +255,8 @@ class Carousel {
 
 let onReady = function () {
     new Carousel(document.querySelector('#carousel1'), {
-        slideToScroll: 3,
-        slideVisible: 3,
+        slideToScroll: 2,
+        slideVisible: 2,
         loop: true,
         pagination: true
     });
@@ -217,9 +269,9 @@ let onReady = function () {
     });
 
     new Carousel(document.querySelector('#carousel3'), {
-        slideToScroll: 1,
-        slideVisible: 1,
-        loop: false
+        slideToScroll: 2,
+        slideVisible: 2,
+        infinite: true
     });
 };
 
