@@ -154,7 +154,6 @@ class Carousel {
      * @param {boolean}     [animation=true]
      */
     goToSlide(slide, animation = true) {
-        console.log(slide);
         if (slide < 0) {
             if (this.options.loop) {
                 slide = this.items.length - this.slideVisible;
@@ -190,15 +189,14 @@ class Carousel {
      * Deplace le container pour donner l'impression d'un slide infini
      */
     resetInfinite() {
+        // prev
         if (this.currentSlide <= this.options.slideToScroll) {
-            /**
-             * 1 2 3 4 5
-             *
-             * 3 4 5 | *[1 2] 3 4 5 | 1 2 3
-             *  <-
-             *  3 4 5 | 1 2 3 4 [5 | 1] 2 3
-             */
-            this.goToSlide(this.currentSlide + this.items.length - 2 * this.offset, false);
+            this.goToSlide(this.currentSlide + (this.items.length - 2 * this.offset), false);
+        }
+
+        // next
+        else if (this.currentSlide >= this.items.length - this.offset) {
+            this.goToSlide(this.currentSlide - (this.items.length - 2 * this.offset), false);
         }
     }
 
