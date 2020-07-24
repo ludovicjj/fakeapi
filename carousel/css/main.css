@@ -119,8 +119,8 @@ body {
     transform: scale(1.4);
 }
 
-@media screen and (min-width: 800px){
+@media screen and (min-width:800px) {
     .carousel__pagination {
-        display: block;
+        display:block
     }
 }

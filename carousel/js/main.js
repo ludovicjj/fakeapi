@@ -132,8 +132,9 @@ class Carousel {
         let buttons = [];
         this.root.appendChild(pagination);
 
-        let itemsHidden = this.items.length - this.options.slideVisible;
-        let page = Math.ceil(((itemsHidden) / this.options.slideToScroll) - (2 * this.offset) + 1);
+        let items = this.items.length - (2 * this.offset);
+        let itemsNotVisible = items - this.options.slideVisible;
+        let page = Math.ceil(((itemsNotVisible) / this.options.slideToScroll)) +1;
 
 
         /*for (let i = 0; i <= (this.items.length - (2 * this.offset)); i = i + this.options.slideToScroll) {
@@ -153,8 +154,6 @@ class Carousel {
 
         this.onMove(index => {
             let count = this.items.length - 2 * this.offset;
-
-            /*console.log(Math.floor(((index - this.offset) % count)) / this.options.slideToScroll);*/
 
             let activeButton = buttons[Math.floor(((index - this.offset) % count) / this.options.slideToScroll)];
             if (activeButton) {
