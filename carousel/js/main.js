@@ -1,3 +1,69 @@
+class CarouselTouchPlugin {
+    /**
+     * @param {Carousel} carousel
+     */
+    constructor(carousel) {
+        carousel.container.addEventListener('mousedown', this.starDrag.bind(this));
+        carousel.container.addEventListener('touchstart', this.starDrag.bind(this), {passive: true});
+        window.addEventListener('mousemove', this.drag.bind(this));
+        window.addEventListener('touchmove', this.drag.bind(this), {passive: true});
+        window.addEventListener('mouseup', this.endDrag.bind(this));
+        window.addEventListener('touchend', this.endDrag.bind(this));
+        window.addEventListener('touchcancel', this.endDrag.bind(this));
+        this.carousel = carousel;
+    }
+
+    /**
+     * Demarrre le déplacement au toucher
+     * @param {MouseEvent|TouchEvent} e
+     */
+    starDrag(e) {
+        if (e.touches) {
+            if (e.touches.length > 1) {
+                return;
+            } else {
+                e = e.touches[0];
+            }
+        }
+        this.origin = {x: e.screenX, y: e.screenY};
+        this.width = this.carousel.containerWidth;
+        this.carousel.disableTransition();
+    }
+
+    /**
+     * @param {MouseEvent|TouchEvent} e
+     */
+    drag(e) {
+        if (this.origin) {
+            let point = e.touches ? e.touches[0] : e;
+            let translate = {x: point.screenX - this.origin.x, y: point.screenY - this.origin.y};
+            let baseTranslate = this.carousel.currentSlide * -100 / this.carousel.items.length;
+            this.lastTranslate = translate;
+            this.carousel.translate(baseTranslate + 100 * translate.x / this.width);
+        }
+    }
+
+    /**
+     * Fin du déplacement
+     * @param {MouseEvent|TouchEvent} e
+     */
+    endDrag(e) {
+        if (this.origin && this.lastTranslate) {
+            this.carousel.enableTransition();
+            if (Math.abs(this.lastTranslate.x / this.carousel.carouselWidth) > 0.2) {
+                if (this.lastTranslate.x < 0) {
+                    this.carousel.next();
+                } else {
+                    this.carousel.prev();
+                }
+            } else {
+                this.carousel.goToSlide(this.carousel.currentSlide);
+            }
+        }
+        this.origin = null;
+    }
+}
+
 class Carousel {
 
     /**
@@ -90,6 +156,9 @@ class Carousel {
         if (this.options.infinite) {
             this.container.addEventListener('transitionend', this.resetInfinite.bind(this));
         }
+
+        // Plugin
+        new CarouselTouchPlugin(this);
     }
 
     /**
@@ -163,6 +232,18 @@ class Carousel {
         })
     }
 
+    disableTransition() {
+        this.container.style.transition = 'none';
+    }
+
+    enableTransition() {
+        this.container.style.transition = '';
+    }
+
+    translate(percentage) {
+        this.container.style.transform = 'translate3d(' + percentage + '%, 0, 0)';
+    }
+
     next() {
         this.goToSlide(this.currentSlide + this.slideToScroll);
     }
@@ -195,13 +276,14 @@ class Carousel {
 
         let translateX = slide * (-100 / this.items.length);
         if (animation === false) {
-            this.container.style.transition = 'none';
+            this.disableTransition();
         }
 
-        this.container.style.transform = 'translate3d(' + translateX + '%, 0, 0)';
+        this.translate(translateX);
+
         this.container.offsetHeight; // force repaint
         if (animation === false) {
-            this.container.style.transition = '';
+            this.enableTransition();
         }
         this.currentSlide = slide;
         this.moveCallbacks.forEach(cb => cb(slide));
@@ -270,6 +352,20 @@ class Carousel {
      */
     get slideVisible() {
         return this.isMobile ? 1 : this.options.slideVisible;
+    }
+
+    /**
+     * @returns {number}
+     */
+    get containerWidth() {
+        return this.container.offsetWidth;
+    }
+
+    /**
+     * @returns {number}
+     */
+    get carouselWidth() {
+        return this.root.offsetWidth;
     }
 }
 
