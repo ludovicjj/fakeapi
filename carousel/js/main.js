@@ -3,6 +3,8 @@ class CarouselTouchPlugin {
      * @param {Carousel} carousel
      */
     constructor(carousel) {
+        // cancel drag html element
+        carousel.container.addEventListener('dragstart', e => e.preventDefault());
         carousel.container.addEventListener('mousedown', this.starDrag.bind(this));
         carousel.container.addEventListener('touchstart', this.starDrag.bind(this), {passive: true});
         window.addEventListener('mousemove', this.drag.bind(this));
