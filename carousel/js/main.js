@@ -8,7 +8,7 @@ class CarouselTouchPlugin {
         carousel.container.addEventListener('mousedown', this.starDrag.bind(this));
         carousel.container.addEventListener('touchstart', this.starDrag.bind(this), {passive: true});
         window.addEventListener('mousemove', this.drag.bind(this));
-        window.addEventListener('touchmove', this.drag.bind(this), {passive: true});
+        window.addEventListener('touchmove', this.drag.bind(this));
         window.addEventListener('mouseup', this.endDrag.bind(this));
         window.addEventListener('touchend', this.endDrag.bind(this));
         window.addEventListener('touchcancel', this.endDrag.bind(this));
@@ -39,6 +39,10 @@ class CarouselTouchPlugin {
         if (this.origin) {
             let point = e.touches ? e.touches[0] : e;
             let translate = {x: point.screenX - this.origin.x, y: point.screenY - this.origin.y};
+            /*if (e.touches && Math.abs(translate.x) > Math.abs(translate.y)) {
+                e.preventDefault();
+                e.stopPropagation();
+            }*/
             let baseTranslate = this.carousel.currentSlide * -100 / this.carousel.items.length;
             this.lastTranslate = translate;
             this.carousel.translate(baseTranslate + 100 * translate.x / this.width);
@@ -263,7 +267,7 @@ class Carousel {
             if (this.options.loop) {
                 slide = this.items.length - this.slideVisible;
             } else {
-                return;
+                slide = 0;
             }
         } else if (
             slide >= this.items.length ||
@@ -272,7 +276,7 @@ class Carousel {
             if (this.options.loop) {
                 slide = 0;
             } else {
-                return;
+                slide = this.currentSlide;
             }
         }
 
@@ -390,7 +394,7 @@ let onReady = function () {
         slideToScroll: 1,
         slideVisible: 3,
         infinite: true,
-        pagination: true
+        pagination: false
     });
 };
 
