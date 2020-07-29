@@ -1,13 +1,15 @@
 let modal = null;
 let links = document.querySelectorAll('.js-modal');
 const focusableSelector = 'button, a, input, textarea';
-let focusables = [];
+let focusable = [];
 
 const openModal = function (e) {
-    e.preventDefault();
+    //e.preventDefault();
 
     modal = document.querySelector(e.currentTarget.getAttribute('href'));
-    focusables = [].slice.call(modal.querySelectorAll(focusableSelector));
+    focusable = [].slice.call(modal.querySelectorAll(focusableSelector));
+
+    focusable[1].focus();
 
     // css
     modal.style.display = '';
@@ -39,10 +41,20 @@ const closeModal = function (e) {
     // reset modal
     modal = null;
 };
-
 const focusInModal = function (e) {
     e.preventDefault();
-    console.log(focusables);
+
+    let index = focusable.findIndex(f => f === modal.querySelector(':focus'));
+    console.log(index); // -1 | 0 | 1 | 2
+
+    index++;
+    console.log(index); // 0 | 1 | 2 | 3
+
+    if (index >= focusable.length) {
+        index = 0;
+    }
+
+    focusable[index].focus();
 };
 
 const stopPropagation = function(e) {
@@ -54,7 +66,7 @@ links.forEach(link => {
 });
 
 // keyboard event
-window.addEventListener('keyup', (e) => {
+window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' || e.key === 'Esc') {
         closeModal(e);
     }
