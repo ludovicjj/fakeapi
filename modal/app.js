@@ -1,10 +1,13 @@
 let modal = null;
 let links = document.querySelectorAll('.js-modal');
+const focusableSelector = 'button, a, input, textarea';
+let focusables = [];
 
 const openModal = function (e) {
     e.preventDefault();
 
     modal = document.querySelector(e.currentTarget.getAttribute('href'));
+    focusables = [].slice.call(modal.querySelectorAll(focusableSelector));
 
     // css
     modal.style.display = '';
@@ -37,6 +40,11 @@ const closeModal = function (e) {
     modal = null;
 };
 
+const focusInModal = function (e) {
+    e.preventDefault();
+    console.log(focusables);
+};
+
 const stopPropagation = function(e) {
     e.stopPropagation();
 };
@@ -49,5 +57,9 @@ links.forEach(link => {
 window.addEventListener('keyup', (e) => {
     if (e.key === 'Escape' || e.key === 'Esc') {
         closeModal(e);
+    }
+
+    if (e.key === 'Tab' && modal !== null) {
+        focusInModal(e);
     }
 });
