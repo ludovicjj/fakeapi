@@ -44,8 +44,9 @@ const closeModal = function (e) {
 const focusInModal = function (e) {
     e.preventDefault();
 
-    let index = focusable.findIndex(f => f === modal.querySelector(':focus')); // -1 | 0 | 1 | 2
-    index++; // 0 | 1 | 2 | 3
+    const currentFocus = (focus) => focus === modal.querySelector(':focus');
+    let index = focusable.findIndex(currentFocus);
+    index++;
 
     if (index >= focusable.length) {
         index = 0;
