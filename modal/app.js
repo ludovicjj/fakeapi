@@ -9,7 +9,7 @@ const openModal = function (e) {
     modal = document.querySelector(e.currentTarget.getAttribute('href'));
     focusable = [].slice.call(modal.querySelectorAll(focusableSelector));
 
-    focusable[1].focus();
+    focusable[0].focus();
 
     // css
     modal.style.display = '';
@@ -44,11 +44,8 @@ const closeModal = function (e) {
 const focusInModal = function (e) {
     e.preventDefault();
 
-    let index = focusable.findIndex(f => f === modal.querySelector(':focus'));
-    console.log(index); // -1 | 0 | 1 | 2
-
-    index++;
-    console.log(index); // 0 | 1 | 2 | 3
+    let index = focusable.findIndex(f => f === modal.querySelector(':focus')); // -1 | 0 | 1 | 2
+    index++; // 0 | 1 | 2 | 3
 
     if (index >= focusable.length) {
         index = 0;
