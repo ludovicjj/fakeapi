@@ -46,10 +46,18 @@ const focusInModal = function (e) {
 
     const currentFocus = (focus) => focus === modal.querySelector(':focus');
     let index = focusable.findIndex(currentFocus);
-    index++;
+
+    if (e.shiftKey === true) {
+        index--;
+    } else {
+        index++;
+    }
 
     if (index >= focusable.length) {
         index = 0;
+    }
+    if (index < 0) {
+        index = focusable.length -1;
     }
 
     focusable[index].focus();
