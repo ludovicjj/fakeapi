@@ -9,13 +9,15 @@ const openModal = function (e) {
 
     modal = document.querySelector(e.currentTarget.getAttribute('href'));
     focusable = [].slice.call(modal.querySelectorAll(focusableSelector));
-    previouslyFocusedElement = document.querySelector(':focus');
-    focusable[0].focus();
 
     // css
     modal.style.display = '';
     modal.setAttribute('aria-hidden', 'false');
     modal.setAttribute('aria-modal', 'true');
+
+    // focus: save previous focused element & define focus on first element into modal
+    previouslyFocusedElement = document.querySelector(':focus');
+    focusable[0].focus();
 
     // event
     modal.addEventListener('click', closeModal);
@@ -28,6 +30,11 @@ const closeModal = function (e) {
         return;
     }
     e.preventDefault();
+
+    // focus
+    if (previouslyFocusedElement !== null) {
+        previouslyFocusedElement.focus();
+    }
 
     // css
     modal.style.display = 'none';
