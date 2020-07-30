@@ -2,13 +2,14 @@ let modal = null;
 let links = document.querySelectorAll('.js-modal');
 const focusableSelector = 'button, a, input, textarea';
 let focusable = [];
+let previouslyFocusedElement = null;
 
 const openModal = function (e) {
-    //e.preventDefault();
+    e.preventDefault();
 
     modal = document.querySelector(e.currentTarget.getAttribute('href'));
     focusable = [].slice.call(modal.querySelectorAll(focusableSelector));
-
+    previouslyFocusedElement = document.querySelector(':focus');
     focusable[0].focus();
 
     // css
