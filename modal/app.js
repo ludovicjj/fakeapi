@@ -4,10 +4,15 @@ const focusableSelector = 'button, a, input, textarea';
 let focusable = [];
 let previouslyFocusedElement = null;
 
-const openModal = function (e) {
+const openModal = async function (e) {
     e.preventDefault();
+    const target = e.currentTarget.getAttribute('href');
+    if (target.startsWith('#')) {
+        modal = document.querySelector(target);
+    } else {
+        modal = await loadModal(target);
+    }
 
-    modal = document.querySelector(e.currentTarget.getAttribute('href'));
     focusable = [].slice.call(modal.querySelectorAll(focusableSelector));
 
     // css
@@ -71,6 +76,23 @@ const focusInModal = function (e) {
     }
 
     focusable[index].focus();
+};
+const loadModal = async function (url) {
+    const target = "#" + url.split('#')[1];
+    const existingModal = document.querySelector(target);
+    if (existingModal !== null) {
+        return existingModal;
+    }
+    const html = await fetch(url).then(response => response.text());
+    const fragment = document.createRange().createContextualFragment(html);
+    const element = fragment.querySelector(target);
+
+    if (element === null) {
+        throw `not found ${target} into ${url}`;
+    }
+
+    document.body.append(element);
+    return element;
 };
 
 const stopPropagation = function(e) {
