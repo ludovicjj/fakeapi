@@ -37,7 +37,6 @@ const closeModal = function (e) {
     }
 
     // css
-    modal.style.display = 'none';
     modal.setAttribute('aria-hidden', 'true');
     modal.removeAttribute('aria-modal');
 
@@ -45,9 +44,12 @@ const closeModal = function (e) {
     modal.removeEventListener('click', closeModal);
     modal.querySelector('.js-modal-close').removeEventListener('click', closeModal);
     modal.querySelector('.js-modal-stop').removeEventListener('click', stopPropagation);
-
-    // reset modal
-    modal = null;
+    const hideModal = function (e) {
+        modal.style.display = 'none';
+        modal.removeEventListener('animationend', hideModal);
+        modal = null;
+    };
+    modal.addEventListener('animationend', hideModal);
 };
 const focusInModal = function (e) {
     e.preventDefault();

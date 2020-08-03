@@ -21,6 +21,10 @@ body, html {
     top: 0;
     left: 0;
     background: rgba(0, 0, 0, 0.8);
+    animation: fade-in .5s both;
+}
+.modal[aria-hidden="true"] {
+    animation-name: fade-out;
 }
 
 .modal-wrapper {
@@ -30,4 +34,29 @@ body, html {
     max-width: calc(100vw - 20px);
     max-height: calc(100vh - 20px);
     padding: 20px;
+    animation: slideTop .4s both;
+}
+
+.modal[aria-hidden="true"] .modal-wrapper {
+    animation-name: slideBottom;
+}
+
+@keyframes fade-in {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fade-out {
+    from {opacity: 1;}
+    to {opacity: 0;}
+}
+
+@keyframes slideTop {
+    from {transform: translateY(-50%);}
+    to {transform: translateY(0%)}
+}
+
+@keyframes slideBottom {
+    from {transform: translateY(0%);}
+    to {transform: translateY(-50%)}
 }
