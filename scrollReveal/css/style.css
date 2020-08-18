@@ -378,4 +378,19 @@ img {
     .menu-summary .menu-summary-item:nth-child(even) .menu-summary-price {
         display: inline-block;
     }
+
+    /* block-chief */
+    .block-chief {
+        display: flex;
+        align-items: center;
+        flex-direction: row-reverse;
+        margin-bottom: 0;
+    }
+    .block-chief .block-img {
+        width: 420px;
+        flex: none;
+    }
+    .block-chief .block-img::before {
+        border: none;
+    }
 }
