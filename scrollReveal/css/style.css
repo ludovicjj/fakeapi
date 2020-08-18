@@ -105,6 +105,13 @@ img {
 .block-right {
     flex-direction: row;
 }
+.block-last {
+    text-align: center;
+}
+.block-center .block-body {
+    max-width: 640px;
+    margin: 0 auto;
+}
 .block-img {
     margin: 0 auto;
     border: solid 1px #c89446;
@@ -191,6 +198,9 @@ img {
     }
     .block {
         margin-bottom: 100px;
+    }
+    .block-last {
+        margin-bottom: 60px;
     }
     .block-right {
         flex-direction: row-reverse;
