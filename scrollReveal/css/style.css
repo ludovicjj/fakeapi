@@ -219,6 +219,14 @@ img {
     font-family: 'Pinyon Script', serif;
     font-size: 2.5rem;
 }
+/* reservation */
+.reservation {
+    background:linear-gradient(180deg, rgba(0,0,0,.92),rgba(54,54,54,.5) 39.24%,rgba(28,28,28,.4)), url("../img/reservation.jpg") no-repeat center/cover;
+}
+.reservation .block-body .title, .reservation .block-body p {
+    color: #ffffff;
+}
+
 
 /* 600px */
 @media only screen and (min-width: 600px) {
@@ -392,5 +400,10 @@ img {
     }
     .block-chief .block-img::before {
         border: none;
+    }
+
+    /* reservation */
+    .reservation {
+        padding: 100px;
     }
 }
