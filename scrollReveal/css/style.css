@@ -227,6 +227,35 @@ img {
 .reservation .block-body .title, .reservation .block-body p {
     color: #ffffff;
 }
+.reservation .reservation-form .reservation-button {
+    background-color: #c89446;
+    border: 1px transparent solid;
+    cursor: pointer;
+    padding: 11px 1rem;
+    text-transform: uppercase;
+    color: white;
+    transition: background-color 0.3s;
+}
+.reservation .reservation-form .reservation-button:hover {
+    background-color: transparent;
+    border: 1px #c89446 solid;
+}
+.reservation-form select {
+    /* for Firefox */
+    -moz-appearance: none;
+    /* for Chrome */
+    -webkit-appearance: none;
+}
+.reservation-form select::-ms-expand {
+    display: none;
+}
+.reservation select {
+    background: no-repeat right .5rem center url("../img/select.svg");
+}
+.reservation-form select option {
+    color: black;
+    text-transform: uppercase;
+}
 
 
 /* 600px */
@@ -404,5 +433,34 @@ img {
     /* reservation */
     .reservation {
         padding: 100px;
+    }
+    .reservation .block-center .block-body {
+        max-width:850px;
+    }
+    .reservation .block-center .block-body p {
+        max-width: 650px;
+        margin: 0 auto;
+    }
+    .form-reservation-row {
+        margin: 60px 0;
+        display: flex;
+        justify-content: space-between;
+    }
+    .form-reservation-row label {
+        display: none;
+    }
+    .reservation-form input, .reservation-form select {
+        width: calc(33% - 20px);
+        padding: 0 .5rem;
+        height: 40px;
+        background-color: transparent;
+        border: solid 1px #6f6f6f;
+        border-radius: 1px;
+        color: white;
+        text-transform: uppercase;
+        font-family: 'Source Sans Pro', serif;
+    }
+    .reservation-form .reservation-button {
+        width: calc(33% - 20px);
     }
 }
