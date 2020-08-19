@@ -282,6 +282,10 @@ img {
 /* recipe */
 .recipe {
     padding: 50px 0;
+    background-image: url("../img/bg-gris.jpg");
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: 0 -20px;
 }
 .recipe .recipe-list-item {
     margin-bottom: 0;
@@ -508,6 +512,10 @@ img {
     }
     .recipe {
         text-align: right;
+        background-image: url("../img/bg-gris.jpg");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: 0 90px;
     }
     .recipe .recipe-list {
         max-width: 950px;
