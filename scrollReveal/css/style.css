@@ -223,18 +223,48 @@ img {
 /* reservation */
 .reservation {
     background:linear-gradient(180deg, rgba(0,0,0,.92),rgba(54,54,54,.5) 39.24%,rgba(28,28,28,.4)), url("../img/reservation.jpg") no-repeat center/cover;
+    padding: 50px 0;
 }
 .reservation .block-body .title, .reservation .block-body p {
     color: #ffffff;
 }
-.reservation .reservation-form .reservation-button {
-    background-color: #c89446;
-    border: 1px transparent solid;
-    cursor: pointer;
-    padding: 11px 1rem;
-    text-transform: uppercase;
+.reservation-form-row {
+    display:flex;
+    flex-direction: column;
+}
+.reservation-form-row label {
+    display: none;
+}
+.reservation-form-row input, .reservation-form-row select {
+    height: 40px;
+    margin-bottom: 15px;
+    background-color: transparent;
+    padding: 0 .5rem;
+    border: solid 1px #6f6f6f;
+    border-radius: 1px;
     color: white;
+    text-transform: uppercase;
+    font-family: 'Source Sans Pro', serif;
+}
+.reservation-form select {
+    background: no-repeat right .5rem center url("../img/select.svg");
+}
+.reservation-form select option {
+    color: black;
+    text-transform: uppercase;
+}
+
+.reservation-form .reservation-button {
+    padding: 11px 1rem;
+    cursor: pointer;
     transition: background-color 0.3s;
+    width: 100%;
+    background-color: #c89446;
+    border: solid 1px transparent;
+    color: white;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: .875rem;
 }
 .reservation .reservation-form .reservation-button:hover {
     background-color: transparent;
@@ -248,13 +278,6 @@ img {
 }
 .reservation-form select::-ms-expand {
     display: none;
-}
-.reservation select {
-    background: no-repeat right .5rem center url("../img/select.svg");
-}
-.reservation-form select option {
-    color: black;
-    text-transform: uppercase;
 }
 
 
@@ -441,26 +464,13 @@ img {
         max-width: 650px;
         margin: 0 auto;
     }
-    .form-reservation-row {
+    .reservation-form-row {
         margin: 60px 0;
         display: flex;
+        flex-direction: row;
         justify-content: space-between;
     }
-    .form-reservation-row label {
-        display: none;
-    }
-    .reservation-form input, .reservation-form select {
-        width: calc(33% - 20px);
-        padding: 0 .5rem;
-        height: 40px;
-        background-color: transparent;
-        border: solid 1px #6f6f6f;
-        border-radius: 1px;
-        color: white;
-        text-transform: uppercase;
-        font-family: 'Source Sans Pro', serif;
-    }
-    .reservation-form .reservation-button {
+    .reservation-form input, .reservation-form select, .reservation-form .reservation-button {
         width: calc(33% - 20px);
     }
 }
