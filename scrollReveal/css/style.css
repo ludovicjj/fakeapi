@@ -317,6 +317,28 @@ img {
 .recipe .more{
     text-align: right;
 }
+/* footer */
+.footer {
+    background: #383838;
+    padding: 40px 0;
+}
+.footer .footer-item-title {
+    color: #c89446;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+.footer .footer-item ul li {
+    color: white;
+}
+.footer p, .footer-credit {
+    color: white;
+    font-weight: 300;
+}
+.footer-item ul {
+    list-style: none;
+    padding: 0;
+}
 
 /* 600px */
 @media only screen and (min-width: 600px) {
@@ -532,5 +554,22 @@ img {
     }
     .recipe .recipe-item-date {
         width: 95px;
+    }
+
+    /* footer */
+    .footer-row {
+        display: flex;
+    }
+    .footer-item {
+        width: 290px;
+        margin-bottom: 38px;
+        flex: 0 1 auto;
+        margin-right: 50px;
+    }
+    .footer-item:first-child {
+        width: 480px;
+    }
+    .footer-item:last-child {
+        margin-right: 0;
     }
 }
