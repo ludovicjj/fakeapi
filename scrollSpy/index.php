@@ -12,6 +12,7 @@
         <a href="#section<?= $i ?>">Section <?= $i ?></a>
     <?php endfor; ?>
 </nav>
+<hr>
 <main>
     <?php for($i = 1; $i <= 4; $i++): ?>
         <section id="section<?= $i ?>" data-spy>
