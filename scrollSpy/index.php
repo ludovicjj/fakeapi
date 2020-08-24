@@ -8,13 +8,12 @@
 </head>
 <body>
 <nav>
-    <?php for($i=0; $i < 4; $i++): ?>
+    <?php for($i = 1; $i <= 4; $i++): ?>
         <a href="#section<?= $i ?>">Section <?= $i ?></a>
     <?php endfor; ?>
-    <a href="#">Contact</a>
 </nav>
 <main>
-    <?php for($i=0; $i < 4; $i++): ?>
+    <?php for($i = 1; $i <= 4; $i++): ?>
         <section id="section<?= $i ?>">
             section <?= $i ?>
         </section>
