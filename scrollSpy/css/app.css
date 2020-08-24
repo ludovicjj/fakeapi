@@ -26,6 +26,10 @@ nav a {
     display: flex;
     align-items: center;
 }
+nav a.active {
+    color: #4a5568;
+    border-bottom: solid 3px #4a5568;
+}
 
 section {
     background-color: #edf2f7;
