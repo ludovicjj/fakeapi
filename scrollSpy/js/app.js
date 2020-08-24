@@ -23,11 +23,10 @@ const activate = function (element) {
 
 /**
  * @param {IntersectionObserverEntry[]} entries
- * @param {IntersectionObserver} observer
  */
-const handleObserver = function (entries, observer) {
+const handleObserver = function (entries) {
     entries.forEach(function(entry) {
-        if (entry.intersectionRatio > 0) {
+        if (entry.isIntersecting) {
             activate(entry.target);
         }
     });
