@@ -14,10 +14,11 @@
 </nav>
 <main>
     <?php for($i = 1; $i <= 4; $i++): ?>
-        <section id="section<?= $i ?>">
+        <section id="section<?= $i ?>" data-spy>
             section <?= $i ?>
         </section>
     <?php endfor; ?>
 </main>
+<script type="text/javascript" src="js/app.js"></script>
 </body>
 </html>
